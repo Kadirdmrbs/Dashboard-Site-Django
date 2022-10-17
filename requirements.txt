@@ -60,7 +60,6 @@ service-identity==21.1.0
 sqlparse==0.4.2
 tenacity==8.0.1
 Twisted==22.8.0
-twisted-iocpsupport==1.0.2
 txaio==22.2.1
 tzdata==2022.2
 uritemplate==4.1.1
