@@ -53,7 +53,6 @@ pyasn1-modules==0.2.8
 pyOpenSSL==22.0.0
 pyparsing==3.0.9
 PyQt5==5.15.7
-pywin32==302
 redis==4.3.4
 requests==2.28.1
 rsa==4.9
