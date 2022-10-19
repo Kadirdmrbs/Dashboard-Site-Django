@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('exploration/',include('exploration.urls')),
     path('prediction/',include('prediction.urls')),
-    path('',RedirectView.as_view(url='exploration/'))
+    path('',RedirectView.as_view(url='exploration/')),
+    path('django_plotly_dash/', include('django_plotly_dash.urls')),
 
 ]
