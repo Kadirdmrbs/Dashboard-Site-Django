@@ -1,13 +1,35 @@
 from django.shortcuts import render
 from decouple import config
+from . forms import MlForm
 
-# Create your views here.
+
+
+'''
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+with open('./models/ssports_model2.pickle', 'rb') as f:
+    model1 = pickle.load(f)
+
+'''
 
 def ml_view(request):
+	global result
 
-    my_var = {'num':31,
-            'name':config('SECRET_KEY'),
-            'text':config('SECRET_TEXT')
-            }
+	if request.method == "POST":
+		form = MlForm(request.POST)
 
-    return render(request,'prediction/ml.html',context=my_var)
+		if form.is_valid():
+			form.save()
+			print(form.cleaned_data)
+			result = form.cleaned_data
+			likes = result['likes']
+			comments = result['comments']
+			return render(request,'prediction/ml.html',context={'form':form,
+																'likes':likes,
+																'comments':comments})
+	
+	else:
+		form = MlForm()
+	
+
+	return render(request,'prediction/ml.html',context={'form':form})
