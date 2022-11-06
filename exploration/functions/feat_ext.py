@@ -277,6 +277,7 @@ def fe_data(df):
                   pipe(duration_convert).
                   pipe(date_convert).
                   pipe(year_convert).
-                  pipe(video_age)
+                  pipe(video_age).
+                  pipe(type_convert)
                  )
     return df_cleaned
