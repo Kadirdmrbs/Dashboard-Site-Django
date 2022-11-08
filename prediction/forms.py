@@ -2,7 +2,7 @@ from django import forms
 from . models import MlModel
 from django.forms import ModelForm
 
-CATEGORIES = [('1','First'),('2','Second')]
+
 
 '''
 class MlForm(forms.Form):
