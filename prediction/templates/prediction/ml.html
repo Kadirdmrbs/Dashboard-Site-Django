@@ -2,32 +2,84 @@
 
 {% load static %}
 
+
+
 {% block content %}
 
-<h1>Machine Learning</h1>
-
-<form action="" method="POST">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<!--
 <div class='container'>
+    <form method="POST">
     {% csrf_token %}
 
-    {% for field in form %}
-    <div class='mb-3'>
-        {{field.label_tag}} 
-    </div>
+    {{ form.as_p }}
 
-    {{field}}
-
-    {% endfor %}
-
-    <input type="submit">
+    <button class='btn btn-secondary'>Predict</button>
 </div>
 </form>
+//-->
 
 
-<h2> likes = {{likes}} </h2>
-<h2> comments = {{comments}} </h2>
-<h2> duration = {{duration}} </h2>
-<h2> category = {{category}} </h2>
-<h2> year = {{year}} </h2>
-<h2> pred = {{pred}} </h2>
+<section class="hero is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+        
+          <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+            <form method="POST" action="." class="box">
+              {% csrf_token %}
+
+              <h1 class="has-text-centered mb-5 is-size-3">Machine Learning</h1>
+
+              <div class="field">
+                <label for="" class="label">Likes</label>
+                <div class="control has-icons-left">
+                  {{ form.likes }}
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="" class="label">Comments</label>
+                <div class="control has-icons-left">
+                  {{ form.comments }}
+                </div>
+              </div>
+              <div class="field">
+                <label for="" class="label">Duration</label>
+                <div class="control has-icons-left">
+                  {{ form.duration }}
+                </div>
+              </div>
+              <div class="field">
+                <label for="" class="label">Category</label>
+                <div class="control has-icons-left">
+                  {{ form.category }}
+                </div>
+              </div>
+              <div class="field">
+                <label for="" class="label">Year</label>
+                <div class="control has-icons-left">
+                  {{ form.year }}
+                </div>
+              </div>
+
+
+              <div class="field">
+                <button class="button is-success" type="submit">
+                  Predict
+                </button>
+              </div>
+              <div class="field">
+                Predcited View Amount is {{pred}} 
+              </div>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 {% endblock content %}
