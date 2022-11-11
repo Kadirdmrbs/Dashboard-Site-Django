@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'channels',
     'channels_redis',
+    'dpd_static_support',
+    'bootstrap4',
+    
 ]
 
 MIDDLEWARE = [
@@ -54,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_plotly_dash.middleware.ExternalRedirectionMiddleware',
 ]
 
 ROOT_URLCONF = 'youtubeproject.urls'
@@ -150,7 +154,8 @@ STARICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.plotly_dash.finders.DashAssetFinder',
-    'django.plotly_dash.finders.DashComponentFinder'
+    'django.plotly_dash.finders.DashComponentFinder',
+    'django_plotly_dash.finders.DashAppDirectoryFinder',
 
 ]
 
@@ -158,11 +163,13 @@ PLOTLY_COMPONENTS = [
     'dash_core_components',
     'dash_html_components',
     'dash_renderer',
-    'dpd_component'
+    'dpd_component',
+    'dpd_static_support',
+    'dash_bootstrap_components',
 ]
 
-X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
