@@ -8,9 +8,6 @@ from ...functions.db_connect import return_df
 import dash
 from textwrap import dedent
 
-table = return_df()
-df = fe_data(table)
-
 
 app = DjangoDash('SimpleExample',add_bootstrap_links=True)
 app.css.append_css({ "external_url" : "/static/assets/s1.css" })
@@ -90,8 +87,10 @@ def build_modal_info_overlay(id, side, content):
 """
 Dash Layout
 """
+table = return_df()
+df = fe_data(table)
 
-
+table = df[['Id','Title','Date','Comments','Likes','Views','Duration','Categories','SubCategory']]
 elements = ['Views','Likes','Comments','DurationinSeconds']
 
 app.layout = html.Div(
@@ -120,7 +119,7 @@ app.layout = html.Div(
                     "top",
                     dedent(
                         """
-            Total Subscriber S Sport has
+            Total Subscriber S Sport has as 04/11/2022
             """
                     ),
                 ),
@@ -129,7 +128,7 @@ app.layout = html.Div(
                     "top",
                     dedent(
                         """
-            Total Videos S Sport uploaded
+            Total Videos S Sport uploaded as 04/11/2022
         """
                     ),
                 ),
@@ -138,7 +137,7 @@ app.layout = html.Div(
                     "top",
                     dedent(
                         """
-            Total views S Sport has
+            Total views S Sport has as 04/11/2022
         """
                     ),
                 ),
@@ -147,16 +146,42 @@ app.layout = html.Div(
                     "top",
                     dedent(
                         """
-            The _**Signal Range**_ panel displays a histogram of the signal range of
-            each tower in the dataset.  The dark gray bars represent the set of towers
-            in the current selection, while the light gray bars underneath represent
-            all towers in the dataset.
+            The _**Videos by Categories**_ panel displays a scatter plot of the all videos
+            in the dataset.
 
-            Left-click drag to select histogram bars using the box-selection tool.
+            It can be customized by selecting a year range, x axis value and
+            y axis value respectively.
 
-            The _**Clear Selection**_ button may be used to clear any selections
-            applied in the _**Signal Range**_ panel, while leaving any selections
-            applied in other panels unchanged.
+            Left-click on categories on the right to exclude or include them.
+        """
+                    ),
+                ),
+                build_modal_info_overlay(
+                    "count",
+                    "top",
+                    dedent(
+                        """
+            The _**Count**_ panel displays a histogram of the total video amount by
+            subcategories.
+
+            It can be customized by selecting a year range
+
+            Left-click on categories on the right to exclude or include them.
+        """
+                    ),
+                ),
+                build_modal_info_overlay(
+                    "yearassess",
+                    "top",
+                    dedent(
+                        """
+            The _**Annual Summary**_ panel displays a bar plot of the channel details
+            by year.
+
+            It can be customized by selecting a y axis value.
+
+            It can either show mean or sum of the selected value.
+
         """
                     ),
                 ),
@@ -176,22 +201,10 @@ app.layout = html.Div(
                                     ],
                                     className="container_title",
                                 ),
-                                dcc.Loading(
-                                    dcc.Graph(
-                                        id="subscriberInfo-graph",
-                                        figure=blank_fig(row_heights[0]),
-                                        config={"displayModeBar": False},
-                                    ),
-                                    className="svg-container",
-                                    style={"height": 150},
-                                ),
-                                html.Div(
-                                    children=[
-                                        html.Button(
-                                            "Reset All",
-                                            id="subscriberInfo-clear-all",
-                                            className="reset-button",
-                                        ),
+                                html.Div([
+                                dcc.Markdown('# 1.130.000 #')],style={'textAlign': 'center'}),
+
+
                                     ]
                                 ),
                             ],
@@ -212,24 +225,10 @@ app.layout = html.Div(
                                     ],
                                     className="container_title",
                                 ),
-                                dcc.Loading(
-                                    dcc.Graph(
-                                        id="videosInfo-graph",
-                                        figure=blank_fig(row_heights[0]),
-                                        config={"displayModeBar": False},
-                                    ),
-                                    className="svg-container",
-                                    style={"height": 150},
-                                ),
-                                html.Div(
-                                    children=[
-                                        html.Button(
-                                            "Reset All",
-                                            id="videosInfo-clear-all",
-                                            className="reset-button",
-                                        ),
-                                    ]
-                                ),
+                                html.Div([
+                                dcc.Markdown('# 9.702 #')],style={'textAlign': 'center'}),
+
+
                             ],
                             className="four columns pretty_container",
                             id="videosInfo-div",
@@ -248,24 +247,10 @@ app.layout = html.Div(
                                     ],
                                     className="container_title",
                                 ),
-                                dcc.Loading(
-                                    dcc.Graph(
-                                        id="vieswInfo-graph",
-                                        figure=blank_fig(row_heights[0]),
-                                        config={"displayModeBar": False},
-                                    ),
-                                    className="svg-container",
-                                    style={"height": 150},
-                                ),
-                                html.Div(
-                                    children=[
-                                        html.Button(
-                                            "Reset All",
-                                            id="viewsInfo-clear-all",
-                                            className="reset-button",
-                                        ),
-                                    ]
-                                ),
+                                html.Div([
+                                dcc.Markdown('# 227.818.009 #')],style={'textAlign': 'center'}),
+
+
                             ],
                             className="four columns pretty_container",
                             id="viewsInfo-div",
@@ -283,26 +268,31 @@ app.layout = html.Div(
                                     ],
                                     className="container_title",
                                 ),
-                                dcc.Graph(
-                                    id="scatterInfo-graph",
-                                    figure=blank_fig(row_heights[1]),
-                                    config={"displayModeBar": False},
-                                ),
+                                html.H6(['Select Year, Xaxis and Yaxis respectively']),
+                                html.Div([
                                 dcc.RangeSlider(
                                     id='range-slider',
                                     min=2018, max=2023, step=1,
                                     marks={2018:'2018', 2019:'2019', 2020:'2020', 2021:'2021', 2022:'2022', 2023: '2023'},
-                                    value=[2018, 2023]
+                                    value=[2018, 2023],
                                     ),
                                 dcc.Dropdown(
                                     elements,
-                                    'Likes',
+                                    'DurationinSeconds',
                                     id='xaxis-column',
                                 ),
                                 dcc.Dropdown(
                                     elements,
                                     'Views',
-                                    id='yaxis-column'
+                                    id='yaxis-column',
+                                ),
+                                    ],
+                                    style={"display": "grid", "grid-template-columns": "50% 25% 25%"},
+                                ),
+                                dcc.Graph(
+                                    id="scatterInfo-graph",
+                                    figure=blank_fig(row_heights[1]),
+                                    config={"displayModeBar": False},
                                 )
                             ],
                             className="twelve columns pretty_container",
@@ -312,26 +302,93 @@ app.layout = html.Div(
                             },
                             id="scatterInfo-div",
                     ),
-                                    ]
+                    html.Div(
+                    children=[
+                        html.Div(
+                            children=[
+                                html.H4(
+                                    [
+                                        "Count",
+                                        html.Img(
+                                            id="show-count-modal",
+                                            src="/static/assets/question-circle-solid.svg",
+                                            className="info-icon",
+                                        ),
+                                    ],
+                                    className="container_title",
+                                ),
+                                dcc.RangeSlider(
+                                    id='histo-year',
+                                    min=2018, max=2023, step=1,
+                                    marks={2018:'2018', 2019:'2019', 2020:'2020', 2021:'2021', 2022:'2022', 2023: '2023'},
+                                    value=[2018, 2023],
+                                    ),
+                                dcc.Graph(
+                                    id="count-histogram",
+                                    figure=blank_fig(row_heights[2]),
+
+                                    config={"displayModeBar": False},
+                                ),
+
+                            ],
+                            className="six columns pretty_container",
+                            id="count-div",
+                        ),
+                        html.Div(
+                            children=[
+                                html.H4(
+                                    [
+                                        "Annual Summary",
+                                        html.Img(
+                                            id="show-yearassess-modal",
+                                            src="/static/assets/question-circle-solid.svg",
+                                            className="info-icon",
+                                        ),
+                                    ],
+                                    className="container_title",
+                                ),
+                                html.Div([
+                                dcc.RadioItems(
+                                    ['Average', 'Total'],
+                                    'Average',
+                                    id='radiotype',
+                                    labelStyle={'display': 'inline-block', 'marginTop': '5px'}
+                                ),
+                                dcc.Dropdown(
+                                    elements,
+                                    'Views',
+                                    id='year-dropdown',
+                                ),
+
+                                    ],
+                                    style={"display": "grid", "grid-template-columns": "30% 70%"},
+                                ),
+
+                                dcc.Graph(
+                                    id="yearassess-histogram",
+                                    config={"displayModeBar": False},
+                                    figure=blank_fig(row_heights[2]),
+                                ),
+
+                            ],
+                            className="six columns pretty_container",
+                            id="yearassess-div",
+                        ),
+                    ]
                 ),
             ]
         ),
+
         html.Div(
             [
                 html.H4("Acknowledgements", style={"margin-top": "0"}),
                 dcc.Markdown(
                     """\
  - Dashboard written in Python using the [Dash](https://dash.plot.ly/) web framework.
- - Parallel and distributed calculations implemented using the [Dask](https://dask.org/) Python library.
- - Server-side visualization of the location of all 40 million cell towers performed
- using the [Datashader] Python library (https://datashader.org/).
- - Base map layer is the ["light" map style](https://www.mapbox.com/maps/light-dark/)
- provided by [mapbox](https://www.mapbox.com/).
- - Cell tower dataset provided by the [OpenCelliD Project](https://opencellid.org/) which is licensed under a
-[_Creative Commons Attribution-ShareAlike 4.0 International License_](https://creativecommons.org/licenses/by-sa/4.0/).
- - Mapping from cell MCC/MNC to network operator scraped from https://cellidfinder.com/mcc-mnc.
- - Icons provided by [Font Awesome](https://fontawesome.com/) and used under the
-[_Font Awesome Free License_](https://fontawesome.com/license/free).
+ - Data acquired by Youtube Data API.
+ - Later data stored on a AWS PostgresSQL database.
+ - After pulling data from AWS PostgresSQL database it goes into data cleaning pipelines
+ and ready for building the dashboard.
 """
                 ),
             ],
@@ -348,7 +405,7 @@ app.layout = html.Div(
 
 
 
-for id in ["subscriberInfo", "videosInfo", "viewsInfo", "scatterInfo"]:
+for id in ["subscriberInfo", "videosInfo", "viewsInfo", "scatterInfo","count","yearassess"]:
 
     @app.callback(
         [Output(f"{id}-modal", "style"), Output(f"{id}-div", "style")],
@@ -372,15 +429,54 @@ for id in ["subscriberInfo", "videosInfo", "viewsInfo", "scatterInfo"]:
 def update_graph(xaxis_column_name, yaxis_column_name, slider_range):
 
     low, high = slider_range
-    #mask = (df['Year'] >= low) & (df['Year'] < high)
+    mask = (df['Year'].astype('int') >= low) & (df['Year'].astype('int') < high)
 
-    fig = px.scatter(df,x=xaxis_column_name,
+    fig = px.scatter(df[mask],x=xaxis_column_name,
             y=yaxis_column_name,
             hover_name='Title',
             color='Categories'
             )
 
     fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
+
+    fig.update_layout(paper_bgcolor="#f3f3f1",plot_bgcolor="#f3f3f1",yaxis=dict(showgrid=False),xaxis=dict(showgrid=False))
+
+    return fig
+
+
+@app.callback(
+    Output('yearassess-histogram','figure'),
+    Input('radiotype','value'),
+    Input('year-dropdown', 'value'))
+def yeargraph(radiotype,yeardropdown):
+
+    if radiotype == 'Average':
+        fig = px.bar(df.groupby(['Year']).mean().reset_index(),
+                    x='Year',
+                    y=yeardropdown,
+                    height=420)
+
+    else:
+        fig = px.bar(df.groupby(['Year']).sum().reset_index(),
+                    x='Year',
+                    y=yeardropdown,
+                    height=420)
+
+    fig.update_layout(paper_bgcolor="#f3f3f1",plot_bgcolor="#f3f3f1",yaxis=dict(showgrid=False),xaxis=dict(showgrid=False))
+
+    return fig
+
+@app.callback(
+    Output('count-histogram','figure'),
+    Input('histo-year','value'))
+def histograph(year_lh):
+
+    low, high = year_lh
+    mask = (df['Year'].astype('int') >= low) & (df['Year'].astype('int') < high)
+
+    fig = px.histogram(df[mask], y="SubCategory", color="Categories",height=420).update_xaxes(categoryorder='total descending')
+
+    fig.update_layout(paper_bgcolor="#f3f3f1",plot_bgcolor="#f3f3f1",yaxis=dict(showgrid=False),xaxis=dict(showgrid=False))
 
     return fig
 
