@@ -100,13 +100,7 @@ app.layout = html.Div(
                 html.H1(
                     children=[
                         "S Sport Youtube Channel Dashboard",
-                        html.A(
-                            html.Img(
-                                src="/static/assets/icon.png",
-                                style={"float": "right", "height": "50px"},
-                            ),
-                            href="https://dash.plot.ly/",
-                        ),
+                        
                     ],
                     style={"text-align": "left"},
                 ),
@@ -158,7 +152,7 @@ app.layout = html.Div(
                 ),
                 build_modal_info_overlay(
                     "count",
-                    "top",
+                    "middle",
                     dedent(
                         """
             The _**Count**_ panel displays a histogram of the total video amount by
@@ -172,7 +166,7 @@ app.layout = html.Div(
                 ),
                 build_modal_info_overlay(
                     "yearassess",
-                    "top",
+                    "middle",
                     dedent(
                         """
             The _**Annual Summary**_ panel displays a bar plot of the channel details
