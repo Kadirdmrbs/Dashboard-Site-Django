@@ -31,6 +31,14 @@
   float: left;
   box-sizing: border-box; }
 
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+  }
+}
+
 /* For devices larger than 400px */
 @media (min-width: 400px) {
   .container {
@@ -486,4 +494,8 @@ there.
 
 .modal-content.top {
     top: 0;
+}
+
+.modal-content.middle {
+  top: 40;
 }

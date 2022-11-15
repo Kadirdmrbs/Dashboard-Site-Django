@@ -138,7 +138,7 @@ app.layout = html.Div(
                 ),
                 build_modal_info_overlay(
                     "scatterInfo",
-                    "top",
+                    "middle",
                     dedent(
                         """
             The _**Videos by Categories**_ panel displays a scatter plot of the all videos
@@ -153,7 +153,7 @@ app.layout = html.Div(
                 ),
                 build_modal_info_overlay(
                     "count",
-                    "middle",
+                    "bottom",
                     dedent(
                         """
             The _**Count**_ panel displays a histogram of the total video amount by
@@ -167,7 +167,7 @@ app.layout = html.Div(
                 ),
                 build_modal_info_overlay(
                     "yearassess",
-                    "middle",
+                    "bottom",
                     dedent(
                         """
             The _**Annual Summary**_ panel displays a bar plot of the channel details
@@ -372,27 +372,6 @@ app.layout = html.Div(
                     ]
                 ),
             ]
-        ),
-
-        html.Div(
-            [
-                html.H4("Acknowledgements", style={"margin-top": "0"}),
-                dcc.Markdown(
-                    """\
- - Dashboard written in Python using the [Dash](https://dash.plot.ly/) web framework.
- - Data acquired by Youtube Data API.
- - Later data stored on a AWS PostgresSQL database.
- - After pulling data from AWS PostgresSQL database it goes into data cleaning pipelines
- and ready for building the dashboard.
-"""
-                ),
-            ],
-            style={
-                "width": "98%",
-                "margin-right": "0",
-                "padding": "10px",
-            },
-            className="twelve columns pretty_container",
         ),
     ]
 )
