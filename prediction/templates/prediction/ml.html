@@ -72,7 +72,7 @@
                 </button>
               </div>
               <div class="field">
-                Predcited View Amount is {{pred}} 
+                Predcited View Amount is {{pred}}
               </div>
             </form>
             
@@ -81,5 +81,13 @@
       </div>
     </div>
   </section>
+
+{% load plotly_dash %}
+
+<div class="{% plotly_class name='Importance' %} card" style="height: 100%; width: 100%">
+
+  {% plotly_app name='Importance' ratio=0.65 %}
+
+</div>
 
 {% endblock content %}

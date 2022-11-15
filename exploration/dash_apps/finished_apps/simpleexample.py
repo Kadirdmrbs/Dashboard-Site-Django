@@ -1,4 +1,4 @@
-from dash import html, dcc, Input, Output, dash_table
+from dash import html, dcc, Input, Output
 import pandas as pd
 import plotly.express as px
 from django_plotly_dash import DjangoDash
@@ -26,6 +26,7 @@ bar_unselected_opacity = 0.8
 # Figure template
 row_heights = [150, 500, 300]
 template = {"layout": {"paper_bgcolor": bgcolor, "plot_bgcolor": bgcolor}}
+
 
 
 def blank_fig(height):
